@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Amigo Oculto</title>
+<style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    input, button { padding: 8px; margin: 5px; }
+    .card { background:#f2f2f2; padding:10px; margin:5px 0; border-radius:5px; }
+</style>
+</head>
+<body>
+
+<h2>🎁 Sorteador de Amigo Oculto</h2>
+
+<input id="nome" placeholder="Nome do participante">
+<button onclick="adicionar()">Adicionar</button>
+<button onclick="sortear()">Sortear</button>
+
+<h3>Participantes:</h3>
+<div id="lista"></div>
+
+<h3>Resultado:</h3>
+<div id="resultado"></div>
+
+<script>
+let participantes = [];
+
+function adicionar() {
+    const nome = document.getElementById("nome").value.trim();
+    if (!nome) return alert("Digite um nome");
+    participantes.push(nome);
+    document.getElementById("nome").value = "";
+    atualizarLista();
+}
+
+function atualizarLista() {
+    document.getElementById("lista").innerHTML =
+        participantes.map(p => `<div class='card'>${p}</div>`).join("");
+}
+
+function sortear() {
+    if (participantes.length < 3) return alert("Adicione pelo menos 3 participantes.");
+
+    let sorteados = [...participantes];
+    
+    // Embaralha
+    for (let i = sorteados.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [sorteados[i], sorteados[j]] = [sorteados[j], sorteados[i]];
+    }
+
+    // Garantir que ninguém tire ele mesmo
+    for (let i = 0; i < participantes.length; i++) {
+        if (participantes[i] === sorteados[i]) {
+            return sortear(); // refaz
+        }
+    }
+
+    let html = "";
+    for (let i = 0; i < participantes.length; i++) {
+        html += `<div class='card'><b>${participantes[i]}</b> ➡ <i>${sorteados[i]}</i></div>`;
+    }
+    document.getElementById("resultado").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
