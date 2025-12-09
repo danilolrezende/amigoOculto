@@ -43,8 +43,27 @@ function gerarLinks() {
         const receiver = sorteio[i];
         const codificado = btoa(encodeURIComponent(receiver));
         const link = `${base}?p=${encodeURIComponent(giver)}&c=${codificado}`;
-        html += `<div class='card'><b>${giver}</b>: <a href="${link}" target="_blank">${link}</a></div>`;
+
+        html += `
+            <div class='card'>
+                <b>${giver}</b>: 
+                <a href="${link}" target="_blank">${link}</a>
+                <button onclick="copiar('${link}')">Copiar</button>
+            </div>
+        `;
     }
 
     document.getElementById("links").innerHTML = html;
+}
+
+function copiar(texto) {
+    navigator.clipboard.writeText(texto);
+    alert("Link copiado!");
+}
+
+function limparTudo() {
+    if (!confirm("Tem certeza que deseja limpar tudo?")) return;
+    participantes = [];
+    document.getElementById("lista").innerHTML = "";
+    document.getElementById("links").innerHTML = "";
 }
