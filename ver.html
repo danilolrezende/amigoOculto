@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Seu Amigo Oculto</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🎄 Resultado do Amigo Oculto</h1>
+<h2 id="texto"></h2>
+
+<script>
+function decode(base64) {
+    return decodeURIComponent(atob(base64));
+}
+
+const params = new URLSearchParams(location.search);
+const nome = params.get("p");
+const codigo = params.get("c");
+
+document.getElementById("texto").textContent =
+    nome && codigo ? `Você tirou: ${decode(codigo)}` : "Link inválido.";
+</script>
+
+</body>
+</html>
